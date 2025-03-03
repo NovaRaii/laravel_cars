@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Body;
 use Illuminate\Http\Request;
 
 class BodyController extends Controller
@@ -13,6 +14,8 @@ class BodyController extends Controller
      */
     public function index()
     {
+        $bodies = Body::all();
+        return view('bodies.index', compact('bodies'));
         //
     }
 
@@ -23,7 +26,7 @@ class BodyController extends Controller
      */
     public function create()
     {
-        //
+        return view('bodies.create');
     }
 
     /**
@@ -34,7 +37,11 @@ class BodyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $body  = new Body();
+        $body->name = $request->input('name'); 
+        $body->save();
+ 
+        return redirect()->route('bodies.index')->with('success', "{$body->name} sikeresen létrehozva");
     }
 
     /**
@@ -45,7 +52,8 @@ class BodyController extends Controller
      */
     public function show($id)
     {
-        //
+        $body = Body::find($id);
+        return view('bodies.show', compact('body'));
     }
 
     /**
@@ -56,7 +64,8 @@ class BodyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $body = Body::find($id);
+        return view('bodies.edit', compact('body'));
     }
 
     /**
@@ -68,7 +77,11 @@ class BodyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $body  = Body::find($id);
+        $body->name = $request->input('name');
+        $body->save();
+ 
+        return redirect()->route('bodies.index')->with('success', "{$body->name} sikeresen módosítva");
     }
 
     /**
@@ -79,6 +92,9 @@ class BodyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $body  = Body::find($id);
+        $body->delete();
+ 
+        return redirect()->route('bodies.index')->with('success', "Sikeresen törölve");
     }
 }

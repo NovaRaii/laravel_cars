@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
 {
+    public $timestamps = false;
+
+    protected $fillable = ["name"];
     use HasFactory;
 }
